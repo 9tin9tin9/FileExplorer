@@ -1,0 +1,7 @@
+add <C-d>, <C-u> command for moving half page
+
+add d-pad for scrolling
+
+allow using regex to search file
+
+read config from ~/.ferc
