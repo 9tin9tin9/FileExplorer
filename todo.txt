@@ -4,4 +4,4 @@ add d-pad for scrolling
 
 allow using regex to search file
 
-read config from ~/.ferc
+Escape spaces and ' and " in paths when calling shell

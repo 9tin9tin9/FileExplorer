@@ -53,16 +53,35 @@ parse(const std::string& str){
         } \
     } while(0)
 
+static inline void runProcess(std::string command){
+    command += " 2>&1";
+    FElog.add("run proess: " + command);
+    auto fd_pipe = popen(command.c_str(), "r");
+
+    std::string error;
+    char readbuffer[1025];
+    while(fread(readbuffer, 1, 1024, fd_pipe)){
+        error += readbuffer;
+    }
+
+    pclose(fd_pipe);
+
+    if (error != ""){
+        exitError(command, error);
+    }
+}
+
+// TODO: escape spaces and ' and " in paths
 static inline void
 mv(std::vector<std::string> from, std::string to){
     std::string cmd = "mv ";
     for (auto& s : from){
-        cmd += s;
+        cmd += escapePath(s);
         cmd += ' ';
     }
-    cmd += to;
+    cmd += escapePath(to);
     FElog.add("Call shell");
-    runShell(cmd);
+    runProcess(cmd);
 }
 
 static inline void

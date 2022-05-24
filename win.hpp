@@ -176,6 +176,13 @@ class Win{
         // footer
         pushFooter(divideCol({control.getMsg(), { LEFT }, 1}));
         if (ERROR_STR != ""){
+            // trim beginning spaces
+            auto begin =
+                ERROR_STR.find_first_not_of(" \t") == std::string::npos ?
+                    ERROR_STR.end() :
+                    ERROR_STR.begin();
+            ERROR_STR = std::string(begin , ERROR_STR.end());
+
             pushFooter(divideCol({ERROR_STR, { LEFT }, 1}));
             ERROR_STR = "";
         }else{

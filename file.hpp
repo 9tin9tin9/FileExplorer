@@ -35,6 +35,17 @@ static inline void magicEnd(){
     magic_close(magicCookie);
 }
 
+static inline std::string escapePath(const std::string& path){
+    std::string escaped;
+    for (const auto& c : path){
+        if (c == ' ' || c == '\'' || c == '"'){
+            escaped.push_back('\\');
+        }
+        escaped.push_back(c);
+    }
+    return escaped;
+}
+
 static inline void runShell(std::string command){
     FElog.add("run shell: " + command);
     def_prog_mode();
@@ -144,7 +155,8 @@ struct File{
             // spawn new terminal to run
             case EXE: {
                 std::string command =
-                    std::string(TERM) + ' ' + fullpath;
+                    std::string(TERM) + ' ' +
+                    escapePath(fullpath);
                 runShell(command);
                 return "";
             };
@@ -152,10 +164,10 @@ struct File{
             case REG: {
                 std::string command;
                 // open with text editor
-                // double quote editor name and file path
-                command = std::string(TERM) +
-                    " \"" + EDITOR + "\" \"" +
-                    fullpath + "\"";
+                command =
+                    std::string(TERM) + ' ' + 
+                    escapePath(EDITOR) + ' ' +
+                    escapePath(fullpath);
                 runShell(command);
                 return "";
             };
@@ -168,8 +180,9 @@ struct File{
             // open with system default application
             case UKN: {
                 // double quote file path
-                std::string command = std::string(OPEN) + " \"" +
-                    fullpath + "\"";
+                std::string command =
+                    std::string(OPEN) + ' ' +
+                    escapePath(fullpath);
                 runShell(command);
             }
             return "";

@@ -42,10 +42,10 @@ exitError(
     const std::string& error = strerror(errno))
 {
     ERROR_STR = str + ": " + error;
+    FElog.add(ERROR_STR);
 
     if (!FORCE_EXIT_ON_ERROR) return;
     endwin();
-    FElog.add(ERROR_STR);
     FElog.print();
     exit(1);
 }
