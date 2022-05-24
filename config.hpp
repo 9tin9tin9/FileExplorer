@@ -11,7 +11,7 @@ static const bool USE_MAGIC = true;
 
 static const float COL_WIDTHS[] = { 0.8, 0.2 };
 
-static const bool ENABLE_LOGGING = true;
+static const bool ENABLE_LOGGING = false;
 static const bool PRINT_LOG_ON_SEG_VAULT = false;
 static const bool FORCE_EXIT_ON_ERROR = false;
 
